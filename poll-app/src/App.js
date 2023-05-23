@@ -1,20 +1,18 @@
 import React from 'react';
-import { doc, getDoc } from 'firebase/firestore';
+import {collection, getDocs} from 'firebase/firestore';
 import { DB } from './firebase';
 import { useEffect } from 'react';
 
 function App() {
   
   useEffect(() => {
-    const docRef = doc(DB, "RESPONSES", "xanhvp6BKQcUsroRfaCf");
-    getDoc(docRef).then((doc) => {
-      if (doc.exists()) {
-        console.log("Document data:", doc.data());
-      } else {
-        console.log("No such document!");
-      }
+    const docRef = collection(DB, "RESPONSES");
+    getDocs(docRef).then((docs) => {
+      docs.forEach((doc) => {
+        console.log(doc.id, " => ", doc.data());
+      })
     }).catch((error) => {
-      console.log("Error getting document:", error);
+      console.log("Error getting collection:", error);
     });
   }, []);
 
